@@ -1,0 +1,91 @@
+
+<html>
+<header>
+<meta charset="UTF-8">
+</header>
+<body>
+<div dir="ltr" style="text-align: left;" trbidi="on">
+Ένας ερευνητής ανακάλυψε μια νέα ευπάθεια που ονομάζεται "Dirty_Sock" στο REST API για το snapd deamon της Canonical που μπορεί να επιτρ
+έψει στους επιτιθέμενους να αποκτήσουν root access σε μηχανές Linux.<br />
+<br />
+<div class="separator" style="clear: both; text-align: center;">
+<a href="https://3.bp.blogspot.com/-hFQ_WO1vs0I/XGVYIkY4qII/AAAAAAAAjUs/31ZNJ0uslkwFN7ije59lGHx6Z4JwOebVQCLcBGAs/s1600/dirty_sock-exploi
+t.webp" style="margin-left: 1em; margin-right: 1em;"><img border="0" data-original-height="449" data-original-width="559" src="https://3
+.bp.blogspot.com/-hFQ_WO1vs0I/XGVYIkY4qII/AAAAAAAAjUs/31ZNJ0uslkwFN7ije59lGHx6Z4JwOebVQCLcBGAs/s1600/dirty_sock-exploit.webp" /></a></di
+v>
+<br />
+<br />
+&nbsp;Για να καταδείξει πώς μπορούν να αξιοποιηθούν αυτές οι ευπάθειες, ο ερευνητής έχει κυκλοφορήσει proof of concepts που χρησιμοποιού
+ν διαφορετικές μεθόδους γιανα πραγματοποιήσουν το privilege escalation.<br />
+<br />
+<h3 style="text-align: left;">
+Το σφάλμα στο REST API που οδηγεί στο privilege escalation&nbsp;</h3>
+<div style="text-align: left;">
+Κατά την ανάλυση της εγκατάστασης του snapd στο Ubuntu, ο Moberly ανακάλυψε ότι ο deamon χρησιμοποιεί UNIX sockets για να επιτρέπει στου
+ς προγραμματιστές να επικοινωνούν μαζί του χρησιμοποιώντας το REST API.&nbsp;</div>
+<div style="text-align: left;">
+<br />
+Καθώς αυτά τα socket τρέχουν κάτω από το περιβάλλον ασφαλείας του root user, άρχισε να ψάχνει για μεθόδους του API που θα μπορούσαν να ε
+πωφεληθούν από αυτά τα δικαιώματα και να αυξήσουν τα προνόμια του στο server.<br />
+<br />
+<div class="separator" style="clear: both; text-align: center;">
+<a href="https://1.bp.blogspot.com/-Lpd14bNcLpw/XGVT_5-G9CI/AAAAAAAAjUM/XfwOZNVSqp41OfhfnaKemryw31o7J12MACLcBGAs/s1600/ezgif-3-1e6ac5c9a
+c15.jpg" style="margin-left: 1em; margin-right: 1em;"><img border="0" data-original-height="84" data-original-width="740" src="https://1
+.bp.blogspot.com/-Lpd14bNcLpw/XGVT_5-G9CI/AAAAAAAAjUM/XfwOZNVSqp41OfhfnaKemryw31o7J12MACLcBGAs/s1600/ezgif-3-1e6ac5c9ac15.jpg" /></a></d
+iv>
+<br />
+Κατά την ανάλυση του API, ο Moberly ανακάλυψε ότι είναι δυνατό να δημιουργηθεί ένας τοπικός λογαριασμός χρήστη χρησιμοποιώντας την εντολ
+ή του API<code> "POST / v2 / create-user"</code> του deamon. Αυτή η εντολή API, ωστόσο, απαιτεί από το πρόγραμμα να έχει άδεια root ή ui
+d = 0, προκειμένου να δημιουργήσει έναν χρήστη.<br />
+<br />
+&nbsp;Όταν ανέλυσε τον τρόπο με τον οποίο το snapd καθορίζει αν ένας χρήστης έχει δικαιώματα root, <b>είδε ότι δημιουργεί μια συμβολοσει
+ρά που αποτελείται από το pid, το uid του προγράμματος</b> που είναι συνδεδεμένο στο sοcket , το path του socket και το remoteAddr. Για 
+παράδειγμα, μια σύνθετη συμβολοσειρά θα είναι κάπως έτσι: <code>pid=5127;uid=1000;socket=/run/snapd.socket;@ .&nbsp;</code><br />
+<br />
+Κάθε τμήμα αυτής της συμβολοσειράς διαιρείται στο ";" και αντιστοιχείται σε διάφορες μεταβλητές. Χρησιμοποιώντας το παραπάνω παράδειγμα,
+ η μεταβλητή uid θα οριστεί στο 1000 και όχι στο 0 και έτσι δεν θα είναι σε θέση να εκτελέσει την εντολή δημιουργίας-χρήστη, καθώς όπως 
+προαναφέραμε χρειάζεται root access (uid =0) .<br />
+<br />
+Ωστόσο, ο Moberly έμαθε ότι το τμήμα @ της συμβολοσειράς αντιπροσωπεύει το RemoteAddr του socket με το οποίο επικοινωνεί το snapd.<br />
+<br />
+Αυτό του επέτρεψε να δημιουργήσει ένα socket που περιέχει: uid = 0; στο όνομά του, όπως φαίνεται παρακάτω, που θα αντικαταστήσει τότε το
+ uid όταν η συμβολοσειρά περάσει.<br />
+<br />
+<div class="separator" style="clear: both; text-align: center;">
+<a href="https://1.bp.blogspot.com/-vqBFQ3-wSTU/XGVW2IvnO8I/AAAAAAAAjUY/oitG6wthbeEjmw7EC67c-I3U5hqdrPnKACLcBGAs/s1600/connect-to-snapd-
+socket-via-remote-socket.webp" style="margin-left: 1em; margin-right: 1em;"><img border="0" data-original-height="238" data-original-wid
+th="740" src="https://1.bp.blogspot.com/-vqBFQ3-wSTU/XGVW2IvnO8I/AAAAAAAAjUY/oitG6wthbeEjmw7EC67c-I3U5hqdrPnKACLcBGAs/s1600/connect-to-s
+napd-socket-via-remote-socket.webp" /></a></div>
+<br />
+<br />
+Όπως μπορείτε να δείτε παρακάτω, όταν τρέχετε τον παραπάνω κώδικα η σειρά @ έχει αντικατασταθεί από το uid = 0;<br />
+<br />
+<div class="separator" style="clear: both; text-align: center;">
+<a href="https://1.bp.blogspot.com/-42CpZMidQJU/XGVXDshV8rI/AAAAAAAAjUc/BsrN6yXd2Ro_2_CjEQal2MYOhV3mfggMgCLcBGAs/s1600/remoteaddr-now-co
+ntains-string.webp" style="margin-left: 1em; margin-right: 1em;"><img border="0" data-original-height="172" data-original-width="740" sr
+c="https://1.bp.blogspot.com/-42CpZMidQJU/XGVXDshV8rI/AAAAAAAAjUc/BsrN6yXd2Ro_2_CjEQal2MYOhV3mfggMgCLcBGAs/s1600/remoteaddr-now-contains
+-string.webp" /></a></div>
+<br />
+Όταν το snapd αναλύει τη συμβολοσειρά, καθώς το uid = 0 είναι το τελευταίο μέρος, θα αντικαταστήσει το προηγούμενο uid και θα ξεγελάσει 
+το snapd να σκεφτεί ότι καλείται από τον χρήστη root και θα επιτρέπει σε έναν τοπικό χρήστη να δημιουργηθεί.<br />
+<br />
+<div class="separator" style="clear: both; text-align: center;">
+<a href="https://1.bp.blogspot.com/-p8yOGYT6cqM/XGVXabtzEBI/AAAAAAAAjUk/hnGmyadzYeQ0qNYJW66QsnH_8Nad1AE-gCLcBGAs/s1600/snapd-thinks-you-
+have-root-perms.webp" style="margin-left: 1em; margin-right: 1em;"><img border="0" data-original-height="150" data-original-width="740" 
+src="https://1.bp.blogspot.com/-p8yOGYT6cqM/XGVXabtzEBI/AAAAAAAAjUk/hnGmyadzYeQ0qNYJW66QsnH_8Nad1AE-gCLcBGAs/s1600/snapd-thinks-you-have
+-root-perms.webp" /></a></div>
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br /></div>
+<div style="text-align: left;">
+<br /></div>
+<div style="text-align: left;">
+<span id="goog_242407950"></span><span id="goog_242407951"></span><br /></div>
+</div>
+</body>
+</html>

@@ -1,0 +1,125 @@
+  <header>
+    <meta charset="UTF-8">
+  </header>
+  <body>
+    
+
+<div dir="ltr" style="text-align: left;" trbidi="on">
+<a href="http://3.bp.blogspot.com/-ELcDM_CY634/W8byeSnl_6I/AAAAAAAAgMQ/13DuuSaZEhkK6rIiCoB5rcVibaRh-L3XQCK4BGAYYCw/s1600/comparisonf3bbf.png" imageanchor="1" style="clear: left; float: left; margin-bottom: 1em; margin-right: 1em;"><img border="0" height="150" src="https://3.bp.blogspot.com/-ELcDM_CY634/W8byeSnl_6I/AAAAAAAAgMQ/13DuuSaZEhkK6rIiCoB5rcVibaRh-L3XQCK4BGAYYCw/s320/comparisonf3bbf.png" width="320" /></a>To σύστημα που χρησιμοποιούσα για να θυμάμαι τους κωδικούς μου ήταν ότι είχα τρεις διαφορετικούς κωδικούς πρόσβασης, οι οποίοι ήταν παραλλαγές στο ίδιο θέμα. Διατήρησα έναν κατάλογο των ιστοτόπων στους οποίους είχα λογαριασμούς και για κάθε ιστότοπο έδωσα έναν υπαινιγμό ποιος από τους τρεις κωδικούς πρόσβασης που χρησιμοποίησα. Τι φοβερό σχέδιο!<br />
+<br />
+Πριν από μερικές εβδομάδες αποφάσισα να κάνω κάτι γι 'αυτό. Ήθελα, πάνω απ 'όλα, να θυμάμαι μόνο έναν κωδικό πρόσβασης. Αναγνώρισα επίσης την ανάγκη για έναν μοναδικό κωδικό πρόσβασης σε κάθε τοποθεσία.<br />
+<br />
+Σε αυτήν την ανάρτηση θα δείξω πώς χρησιμοποίησα την Python για να δημιουργήσω ένα σύστημα διαχείρισης κωδικού πρόσβασης που μου επιτρέπει να χρησιμοποιήσω έναν ενιαίο "κύριο" κωδικό για να δημιουργήσω μοναδικούς κωδικούς πρόσβασης για όλους τους ιστότοπους και τις υπηρεσίες που χρησιμοποιώ.<br />
+<br />
+<h3 style="text-align: left;">
+Hashing, η δική μου λύση&nbsp;</h3>
+<div>
+Συνειδητοποίησα ότι θα μπορούσα να χρησιμοποιήσω μια συνάρτηση κατακερματισμού για να μεταμορφώσω το μοναδικό όνομα μιας υπηρεσίας (όπως το "reddit") και τον κύριο κωδικό μου ("p@ssw0rd") για να δημιουργήσω έναν μοναδικό κωδικό πρόσβασης που δεν θα ήταν ευαίσθητος σε επιθέσεις τύπου λεξικού. Χρησιμοποιώντας την python, αυτό ήταν εξαιρετικά εύκολο.</div>
+<div>
+<br /></div>
+<div style="text-align: left;">
+<span style="color: #222222; font-family: &quot;lora&quot; , &quot;georgia&quot; , &quot;times new roman&quot; , serif;"><span style="background-color: white; font-size: 18px;">Η πρώτη έκδοση του προγράμματος που έγραψα ήταν ένα απλό βοηθητικό command-line executable. Συνειδητοποίησα ότι θα χρειαζόμουν κάτι που να βασίζεται στο διαδίκτυο, ώστε να μπορώ να δημιουργήσω κωδικούς πρόσβασης από το τηλέφωνό μου, αλλά για λόγους απλότητας θα περιγράψω απλώς τον βασικό κώδικα τhw Python και θα το αφήσω σε σας για να φτιάξετε μια υπηρεσία διαδικτύου αν σας ενδιαφέρει (θα μπορούσατε να χρησιμοποιήσετε το flask!).</span></span></div>
+<div style="text-align: left;">
+<span style="color: #222222; font-family: &quot;lora&quot; , &quot;georgia&quot; , &quot;times new roman&quot; , serif;"><span style="background-color: white; font-size: 18px;"><br /></span></span></div>
+<h3 style="text-align: left;">
+Δημιουργώντας μοναδικούς κωδικούς</h3>
+<div>
+Η βιβλιοθήκη hashlib της Python παρέχει υλοποιήσεις αρκετών κρυπτογραφικών λειτουργιών κατακερματισμού, συμπεριλαμβανομένου του SHA-256.&nbsp;</div>
+<code><br /></code>
+<code><br /></code>
+<code>
+&gt;&gt;&gt; from hashlib import sha256&nbsp;</code><br />
+<code>&gt;&gt;&gt; def get_hexdigest(salt, password):&nbsp;</code><br />
+<code><br /></code>
+<code>...     return sha256(salt + password).hexdigest()&nbsp;</code><br />
+<code><br /></code>
+<code>Κάπως έτσι μοιάζει η εκτέλεση στο τερματικό μου:&nbsp;</code><br />
+<code><br />&gt;&gt;&gt; get_hexdigest('reddit', 'p@ssw0rd')
+'afb0e072194a3f4e8ed39290e16bc2f458426714fc308dc28565d6205453eaa5'</code>
+<code><br /></code>
+<br />
+<br />
+Εντάξει, καλή η φάση, πήγε καλά - η λειτουργία get_hexdigest παίρνει δύο συμβολοσειρές και παράγει μια δεκαεξαδική αναπαράσταση του κατακερματισμού. Δεδομένου ότι ο κύριος κωδικός πρόσβασης και το όνομα υπηρεσίας μπορεί να είναι προβλέψιμοι, θέλω να προσθέσω λίγο επιπλέον μαγικό στο μίγμα με τη μορφή ενός μυστικού κλειδιού, το οποίο θα συνδυαστεί με το όνομα υπηρεσίας και τον κύριο κωδικό πρόσβασης.<br />
+<br />
+<div>
+<code>def get_hexdigest(salt, plaintext):&nbsp;</code><br />
+<code>&nbsp;return sha256(salt + plaintext).hexdigest()&nbsp;</code><br />
+<br />
+<code>SECRET_KEY = 's3cr3t'
+
+def make_password(plaintext, service):&nbsp;</code><br />
+<code>&nbsp;salt = get_hexdigest(SECRET_KEY, service)[:20]&nbsp;</code><br />
+<code>&nbsp;hsh = get_hexdigest(salt, plaintext)&nbsp;</code><br />
+<code>&nbsp;return ''.join((salt, hsh)) 
+</code>
+
+</div>
+<br />
+<br />
+Πρόκειται για μια βελτίωση, αλλά εξακολουθούν να υπάρχουν προβλήματα. Δημιουργεί πραγματικά πολύ μεγάλους κωδικούς πρόσβασης που είναι κατασκευασμένοι από '0-9' και 'a-f' πεζά. Επειδή ορισμένες υπηρεσίες απαιτούν ένα μείγμα σημείων και κεφαλαίων, αριθμών ή συμβόλων, πρέπει να μετατρέψουμε αυτό το hex digest σε κάτι κατάλληλο για έναν κωδικό πρόσβασης.
+
+Η λύση που καταλήξαμε ήταν να μετατρέψουμε την δεκαεξαδική αναπαράσταση σε έναν αριθμό βάσης-Ν, στη συνέχεια να επεξεργαστούμε τα ψηφία του αριθμού βάσης-Ν ως δείκτες σε ένα αλφάβητο έγκυρων χαρακτήρων. Αυτό το αλφάβητο θα περιέχει όλους τους χαρακτήρες που περιλαμβάνουν έγκυρο κωδικό πρόσβασης και μπορεί να είναι:
+<br />
+<br />
+<br />
+<ul style="text-align: left;">
+<li>όλοι οι χαρακτήρες συμβολοσειράς</li>
+<li>όλα τα ψηφία</li>
+<li>τα σύμβολα !@#$%^&amp;*()-_&nbsp;</li>
+</ul>
+<div>
+Αυτοί οι συνδυασμοί αν αθροιστούν δίνουν ένα σύνολο 74 χαρακτήρων το οποίο μπορεί να αξιοποιηθεί για τη δημιουργία ενός ισχυρού κωδικού.<br />
+<br /></div>
+<div>
+<iframe src="https://pastebin.com/embed_iframe/NhW2Nt8r" style="border: none; width: 100%;"></iframe><br /></div>
+<div>
+<br />
+Οπότε το τελικό αποτέλεσμα όταν ζητάμε να δημιουργηθεί κάποιο password καταλήγει σε:<br />
+<br />
+<br /></div>
+<div>
+<code>&gt;&gt;&gt; password('p@ssw0rd', 'reddit')&nbsp;</code><br />
+<code>&nbsp; &nbsp; '&amp;7Ulu!UXdj</code>
+<br />
+<br />
+Να σημειωθεί πως ακόμα και η παραμικρή αλλαγή στις δύο συμβολοσειρές δίνει ένα εντελώς διαφορετικό κώδικο. Για παράδειγμα:<br />
+<br />
+<code>&gt;&gt;&gt; password('p@ssw0rD', 'reddit')&nbsp;</code><br />
+<code>&nbsp; &nbsp; '^Zv3a&amp;uxCG'&nbsp;</code><br />
+<code><br /></code>
+<code>&gt;&gt;&gt; password('p@ssw0rd', 'Reddit')&nbsp;</code><br />
+<code>&nbsp; &nbsp; '_!p(v0mS*V' 
+
+</code>
+<br />
+<code><br /></code>
+<h2 style="text-align: left;">
+Μετατρέποντας την υπηρεσία σε διαδικτυακή&nbsp;</h2>
+<div>
+<div>
+Δεν συνειδητοποίησα πόσο χρησιμοποιώ το τηλέφωνό μου για να περιηγηθώ στον ιστό μέχρι να εφαρμόσω αυτό το σχήμα κωδικού πρόσβασης. Στην αρχή ήταν ένας πρόβλημα&nbsp;να προσπαθώ να συνδεθώ με το browser του τηλεφώνου μου στους διάφορους ιστότοπους που χρησιμοποίησα.</div>
+<div>
+<br /></div>
+<div>
+Αποφάσισα να δημουργήσω ένα web-based interface που μου επιτρέπει να διαχειρίζομαι τον κατάλογο υπηρεσιών και να δημιουργώ κωδικούς πρόσβασης. Εάν το κάνετε αυτό, συστήνω δύο πράγματα:</div>
+<div>
+<br /></div>
+<div>
+<ul style="text-align: left;">
+<li>Χρήση SSL στην υπηρεσία&nbsp;</li>
+<li>Εμφάνιση του κωδικού ως string για εύκολη αντιγραφή/επικόλληση&nbsp;</li>
+</ul>
+<div>
+<br /></div>
+</div>
+</div>
+<div class="separator" style="clear: both; text-align: center;">
+</div>
+<div>
+Happy making!</div>
+<code><br /></code>
+<code><br /></code></div>
+</div>
+  </body>
+</html>
+

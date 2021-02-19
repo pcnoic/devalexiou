@@ -1,0 +1,118 @@
+<html>
+  <header>
+    <meta charset="UTF-8">
+  </header>
+  <body>
+    
+
+<div dir="ltr" style="text-align: left;" trbidi="on">
+<i>Η περιέργεια είναι μια θεμέλια λειτουργία του ανθρώπινου νου. Τόσο θεμέλια που χωρίς αυτήν πολλά σύγχρονα επιστημονικά επιτεύγματα δεν θα είχαν πραγματωθέι ποτέ. Αποτελεί ευχή και κατάρα του ανθρώπινου είδους, μια αρετή που μπορεί να σε φέρει σε φαντασμαγορικές ανακαλύψεις μα και καταστροφικές καταστάσεις.&nbsp;&nbsp;</i><br />
+<i><br /></i>
+<br />
+<blockquote class="tr_bq">
+The important thing is not to stop questioning. Curiosity has its own reason for existing. -Albert Einstein</blockquote>
+<b>Η Python είναι μια γλώσσα που πρωτογνώρισα αρκετά νωρίς</b> στα βήματα μου στο κόσμο της πληροφορικής. Ένα software που χρησιμοποιούσα παλαιότερα για αν φτιάχνω τα particle effects στα βίντεο Doctor Who που δημιουργούσα ήταν το <i>Particle Illusion. </i>Το συγκεκριμένο διέθετε μια φανταστική&nbsp; scripting engine στην Python με την οποία μπορούσες να παραμετροποιήσεις το core λογισμικό και να το φέρεις πραγματικά στα μέτρα σου. Έτσι στα 13 μου και εγώ, <b>μην έχοντας ιδέα τι εστί γλώσσα προγραμματισμού ξεκίνησα</b> να μαθαίνω <b>την Python μέσα από το Particle Illusion</b>, νομίζοντας πως είναι απλά κάτι ακόμα που πρέπει να μάθω για να με κάνω <i>time lord</i>, ωσάν τον Δόκτορα από το BBC.<br />
+<br />
+Ο πύθωνας, αν και ονομασμένος <b>έτσι χάρη στους Monty Python</b>, είναι μια φανταστική γλώσσα προγραμματισμού.<b> Ένα jack of all trades μα όχι και master of none</b>. Ναι, ίσως είναι λιγάκι basic αν δεν χρησιμοποιήσεις όλες τα modules αλλά ποια γλώσσα δεν είναι; Με τα modules η Python πραγματικά γίνεται <b>master of all trades</b>.<br />
+<br />
+Αυτή είναι και η περίπτωσή μας, δηλαδή το <b>να χρησιμοποιήσουμε την Python για ένα keylogger </b>χωρίς να χρειαστεί να πειράξουμε πολύ τα Windows ή να γνωρίζουμε καλά το low-level τρόπο λειτουργίας τους.<br />
+<br />
+Καταρχάς, ας ξεκαθαρίσουμε κάτι. Ακολουθόντας τη γραμμή όλων όσων προσπαθούν με εκπαιδευτικά άρθρα να μυήσουν όλο και περισσότερους ανθρώπους στο κόσμο του software engineering και του hacking, θέλω να δηλώσω το εξής: <b>hack for learning, not hacking</b>.<br />
+<br />
+Εν ολίγοις, οι γνώσεις που θα πάρετε, θα ήμουν περήφανος αν τις χρησιμοποιήσετε μονάχα για να μάθετε μερικά πράγματα σχετικά με τη συγκεκριμένη τεχνική και την νοοτροπία χρήσης της Python.<br />
+<br />
+<b>But, let's get started...&nbsp;&nbsp;</b><br />
+<b><br /></b> <u>Βήμα 1ο: Εγκατάσταση της Python στο σύστημα που θα εργαστούμε </u><br />
+<b></b><br />
+<br />
+<br />
+<div class="separator" style="clear: both; text-align: center;">
+<a href="https://1.bp.blogspot.com/-ne7kGBuHAXA/WnGi3biADYI/AAAAAAAAZ44/7-7pW-CTBiEIxlG2RI8PjHxu4y6FYdDVwCLcBGAs/s1600/ximg_591a18a4aed8c.png.pagespeed.gp%252Bjp%252Bjw%252Bpj%252Bws%252Bjs%252Brj%252Brp%252Brw%252Bri%252Bcp%252Bmd.ic.8f1lV7V3C4.png" imageanchor="1" style="margin-left: 1em; margin-right: 1em;"><img border="0" data-original-height="400" data-original-width="650" src="https://1.bp.blogspot.com/-ne7kGBuHAXA/WnGi3biADYI/AAAAAAAAZ44/7-7pW-CTBiEIxlG2RI8PjHxu4y6FYdDVwCLcBGAs/s1600/ximg_591a18a4aed8c.png.pagespeed.gp%252Bjp%252Bjw%252Bpj%252Bws%252Bjs%252Brj%252Brp%252Brw%252Bri%252Bcp%252Bmd.ic.8f1lV7V3C4.png" /></a></div>
+<br />
+<b>&nbsp;Κατεβάζουμε το επίσημο αρχείο εγκατάστασης της Python</b> από το <a href="https://www.python.org/" target="_blank">website</a> ή τρέχουμε την κατάλληλη εντολή εγκατάστασης από το τερματικό μας εάν βρισκόμαστε σε -UNIX σύστημα. <i>(να σημειωθεί πως το συγκεκριμένο keylogger θα δουλέψει μονάχα σε λειτουργικό σύστημα Windows μιας και ο τρόπος προγραμματισμού του είναι τέτοιος ώστε να αλληλεπιδρά μονάχα με το εξής σύστημα. Από την άλλη, μπορεί να προγραμματιστεί σε οποιδήποτε σύστημα διαθέτει έναν απλό text editor)</i><br />
+<br />
+<u>Βήμα 2ο: Κατεβάζουμε και εγκαθιστούμε τα απαρραίτητα modules&nbsp;</u><br />
+<br />
+Καθώς για να μπορέσουμε να αλληλεπιδράσουμε με το λειτουργικό σύστημα του υπολογιστή θα χρειαστούμε "εξωτερική" βοήθεια είναι <b>καλό να κατεβάσουμε από τώρα τα απαρραίτητα modules.</b> Αυτά είναι τα <i>PyWin32 </i>και <i>PyHook </i>και μπορούμε να τα βρούμε στην <a href="https://pypi.python.org/pypi" target="_blank">εξής ιστοσελίδα.</a><i>&nbsp;</i><br />
+<br />
+<div class="separator" style="clear: both; text-align: center;">
+<a href="https://3.bp.blogspot.com/-AM4q0eJGo6A/WnGk23dMuiI/AAAAAAAAZ5I/etG7aHNy-tQxZoCNg5g-_oTqPw_IPO6ZgCLcBGAs/s1600/pywin32_big.jpg" imageanchor="1" style="margin-left: 1em; margin-right: 1em;"><img border="0" data-original-height="593" data-original-width="786" height="482" src="https://3.bp.blogspot.com/-AM4q0eJGo6A/WnGk23dMuiI/AAAAAAAAZ5I/etG7aHNy-tQxZoCNg5g-_oTqPw_IPO6ZgCLcBGAs/s640/pywin32_big.jpg" width="640" /></a></div>
+<br />
+<u>(ΠΡΟΑΙΡΕΤΙΚΟ)Βήμα 3ο: Εγκατάσταση ενός text editor στο σύστημά μας&nbsp;</u><br />
+<br />
+Παρόλο που η Python <b>διαθέτει το δικό της text editor</b> (ένα IDLE ουσιαστικά) και εγκαθίσταται ταυτόχρονα με την ίδια τη γλώσσα, δεν ξέρω αν είναι και ο πιο εύχρηστος τρόπος να γράψει κανείς Python. Για μένα, η χρήση του IDLE δεν είναι η καλύτερη δυνατή εμπειρία.<br />
+<br />
+Έτσι προτείνω - χωρίς να έχω καμία σχέση με τη δημιουργία ή την ανάπτυξη - <a href="https://notepad-plus-plus.org/" target="_blank">το Notepad++.&nbsp;</a><br />
+<br />
+<div class="separator" style="clear: both; text-align: center;">
+<br /></div>
+<a href="https://4.bp.blogspot.com/-j_ehy31ZeZg/WnGm9rfJdfI/AAAAAAAAZ5U/hPfgzwKiG2UiRkRkK-I4Pm73AqJA6i_QACLcBGAs/s1600/notepad4ever.gif" imageanchor="1" style="margin-left: 1em; margin-right: 1em;"><img border="0" data-original-height="345" data-original-width="456" src="https://4.bp.blogspot.com/-j_ehy31ZeZg/WnGm9rfJdfI/AAAAAAAAZ5U/hPfgzwKiG2UiRkRkK-I4Pm73AqJA6i_QACLcBGAs/s1600/notepad4ever.gif" /></a><br />
+<div class="separator" style="clear: both; text-align: center;">
+<br /></div>
+<div class="separator" style="clear: both; text-align: left;">
+<u>Βήμα 4ο: Ο κώδικας του keylogger&nbsp;</u></div>
+<div class="separator" style="clear: both; text-align: left;">
+<u><br /></u></div>
+<div class="separator" style="clear: both; text-align: left;">
+Ο κώδικας του συγκεκριμένου keylogger<b> είναι εξαιρετικά απλός και λιτός</b>. Η αλήθεια είναι πως εξεπλάγην όταν παλαιότερα είχα δει ένα keylogger στην Python <b>το οποίο είχε περί τις 100 γραμμές κώδικα περισσότερες συγκριτικά με αυτό εδώ</b>, το οποίο καταφέρνει να παρέχει την ουσιώδη λειτουργία ενός keylogger σε ελάχιστες γραμμές κώδικα. Σίγουρα, το keylogger-μεγαθήριο θα <b>προσέφερε και άλλες λειτουργίες</b> αλλά πραγματικά σε όσες περιστάσεις - νόμιμες - μου χρειάστηκε ένα keylogger δεν κατάφερα να τις αξιοποιήσω.&nbsp;</div>
+<div class="separator" style="clear: both; text-align: left;">
+<br /></div>
+<div class="separator" style="clear: both; text-align: left;">
+<b>Καταρχάς, στο κώδικά μας πρέπει να εισάγουμε τις απαρραίτητες βιβλιοθήκες.&nbsp;</b></div>
+<div class="separator" style="clear: both; text-align: left;">
+<br /></div>
+<div class="separator" style="clear: both; text-align: left;">
+<script src="https://pastebin.com/embed_js/iK0D3KDi"></script></div>
+<div class="separator" style="clear: both; text-align: left;">
+<br /></div>
+<div class="separator" style="clear: both; text-align: left;">
+Μετά, <b>δημιουργούμε μια μεταβλητή</b> η οποία θα δείχνει στο αρχείο καταγραφής των keystrokes.&nbsp;
+<script src="https://pastebin.com/embed_js/jCKv6psd"></script></div>
+<div class="separator" style="clear: both; text-align: left;">
+<br /></div>
+<div class="separator" style="clear: both; text-align: left;">
+<br /></div>
+<div class="separator" style="clear: both; text-align: left;">
+Δημιουργούμε τώρα τη<b> συνάρτηση την οποία θα χρησιμοποιήσουμε ώστε να καταγράψουμε τα χτυπήματα στο πληκτρολόγιο</b>. Για αυτή, θα χρησιμοποιήσουμε το module "logging" έτσι ώστε να το θέσουμε σε λειτουργία debugging και να του υποδείξουμε το όνομα του αρχείου καταγραφής αλλά και θα ζητήσουμε να καταγράφεται κάθε χαρακτήρας που εισάγεται από το πληκτρολόγιο και η αντιστοιχία του στο κώδικα ASCII .
+<script src="https://pastebin.com/embed_js/7inyZRFL"></script></div>
+<div class="separator" style="clear: both; text-align: left;">
+<br /></div>
+<div class="separator" style="clear: both; text-align: left;">
+<br /></div>
+<div class="separator" style="clear: both; text-align: left;">
+Τελευταίο κομμάτι του κώδικά μας θα είναι<b> να δημιουργήσουμε ένα hook στα Windows events</b> μέσω του module pyHook και να αξιοποιήσουμε το module pythoncom για να αιχμαλωτίσουμε όλα τα μυνήματα πληκτρολογίου.&nbsp;
+<script src="https://pastebin.com/embed_js/U59EZCbC"></script></div>
+<div class="separator" style="clear: both; text-align: left;">
+<br /></div>
+<div class="separator" style="clear: both; text-align: left;">
+<br /></div>
+<br />
+<u>Βήμα 5ο: Αποθήκευση του αρχείου&nbsp;</u><br />
+<br />
+Είναι πολύ σημαντικό <b>να αποθηκεύσουμε σωστά το αρχείο του κώδικα στο δίσκο</b>, που αποτελεί κατ'επέκταση και το εκτελέσιμο αρχείο μας. Αντί για το σύνηθες, θα σώσουμε το python αρχείο με την κατάληξη .pyw . Αυτό είναι χρήσιμο μιας και ο κώδικας θα εκτελεστεί στο παρασκήνιο, δίχως να ανοίξει κάποιο παράθυρο. <b>Βέβαια, αν θέλουμε να προσθέσουμε στο κώδικά μας ένα μύνημα επιτυχίας στο τέλος</b> έτσι ώστε να ξέρουμε ότι ο κώδικάς μας δούλεψε σωστά, τότε επανερχόμαστε στην αποθήκευσή του ως αρχείο .py .<br />
+<br />
+<br />
+<iframe allow="autoplay; encrypted-media" allowfullscreen="" frameborder="0" height="480" src="https://www.youtube.com/embed/3UsKYsLSGpU" width="854"></iframe>
+
+<h3 style="text-align: left;">
+&nbsp;</h3>
+<h3 style="text-align: left;">
+Enjoy! :)</h3>
+<u> </u><br />
+<u> </u><br />
+<div style="left: -99999px; position: absolute;">
+The important thing is not to stop questioning. Curiosity has its own reason for existing. Albert Einstein<br />
+Read more at: https://www.brainyquote.com/topics/curiosity</div>
+<div style="left: -99999px; position: absolute;">
+The important thing is not to stop questioning. Curiosity has its own reason for existing. Albert Einstein<br />
+Read more at: https://www.brainyquote.com/topics/curiosity</div>
+<div style="left: -99999px; position: absolute;">
+The important thing is not to stop questioning. Curiosity has its own reason for existing. Albert Einstein<br />
+Read more at: https://www.brainyquote.com/topics/curiosity</div>
+<div style="left: -99999px; position: absolute;">
+The important thing is not to stop questioning. Curiosity has its own reason for existing. Albert Einstein<br />
+Read more at: https://www.brainyquote.com/topics/curiosity</div>
+</div>
+
+  </body>
+</html>
